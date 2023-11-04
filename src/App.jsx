@@ -1,17 +1,26 @@
 import Player from './components/player'
 import BoardGame from "./components/BoardGame";
-
+import {useState} from 'react';
 function App() {
+    const [activePlayer, setActivePlayer] = useState('X');
 
-
+    function changeActivePlayer() {
+        setActivePlayer(prevActivePlayer => {
+            if(prevActivePlayer === 'X'){
+                return 'O';
+            } else {
+                return 'X';
+            }
+        })
+    }
     return (
         <main>
             <div id="game-container">
-                <ol id="players">
-                    <Player name='Player1' symbol='X'/>
-                    <Player name='Player2' symbol='O'/>
+                <ol id="players" className="highlight-player">
+                    <Player isActive={activePlayer === 'X'} name='Player1' symbol='X'/>
+                    <Player isActive={activePlayer === 'O'} name='Player2' symbol='O'/>
                 </ol>
-                <BoardGame/>
+                <BoardGame swapPlayers={changeActivePlayer} symbol={activePlayer}/>
             </div>
             Log
         </main>

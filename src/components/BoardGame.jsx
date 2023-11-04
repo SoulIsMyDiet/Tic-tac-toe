@@ -6,16 +6,16 @@ const initialBoardgameStructure = [
     [null, null, null],
 ];
 
-export default function BoardGame() {
+export default function BoardGame({swapPlayers, symbol}) {
     const [boardgameStructure, setBoardgameStructure] = useState(initialBoardgameStructure);
 function handleSelectSquare(rowIndex, colIndex) {
     setBoardgameStructure((prevBoardGameStructure) => {
         const board = [...prevBoardGameStructure.map(innerArray => [...innerArray])];
-        board[rowIndex][colIndex] = 'X';
+        board[rowIndex][colIndex] = symbol;
         return board;
     });
+    swapPlayers();
 }
-
     return (
         <ol id="game-board">
             {boardgameStructure.map((row, rowIndex) => (
