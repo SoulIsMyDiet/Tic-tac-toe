@@ -1,10 +1,21 @@
-const boardgameStructure = [
+import {useState} from 'react';
+
+const initialBoardgameStructure = [
     [null, null, null],
     [null, null, null],
     [null, null, null],
 ];
 
 export default function BoardGame() {
+    const [boardgameStructure, setBoardgameStructure] = useState(initialBoardgameStructure);
+function handleSelectSquare(rowIndex, colIndex) {
+    setBoardgameStructure((prevBoardGameStructure) => {
+        const board = [...prevBoardGameStructure.map(innerArray => [...innerArray])];
+        board[rowIndex][colIndex] = 'X';
+        return board;
+    });
+}
+
     return (
         <ol id="game-board">
             {boardgameStructure.map((row, rowIndex) => (
@@ -12,7 +23,7 @@ export default function BoardGame() {
                     <ol>
                         {row.map((symbol, columnIndex) => (
                             <li key={columnIndex}>
-                                <button>{symbol}</button>
+                                <button onClick={() => handleSelectSquare(rowIndex, columnIndex)}>{symbol}</button>
                             </li>
                         ))}
                     </ol>
