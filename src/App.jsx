@@ -1,5 +1,6 @@
 import Player from './components/player'
 import BoardGame from "./components/BoardGame";
+import Log from "./components/Log";
 import {useState} from 'react';
 function App() {
     const [activePlayer, setActivePlayer] = useState('X');
@@ -33,7 +34,7 @@ function App() {
                 </ol>
                 <BoardGame selectSquare={handleSelectSquare} gameTurns={gameTurns}/>
             </div>
-            Log
+            <Log gameTurns={gameTurns} />
         </main>
     )
 }
