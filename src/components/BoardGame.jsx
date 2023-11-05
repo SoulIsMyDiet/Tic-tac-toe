@@ -13,15 +13,6 @@ export default function BoardGame({selectSquare, gameTurns}) {
         let {row, col } = square;
         boardgameStructure[row][col] = player;
     }
-    // const [boardgameStructure, setBoardgameStructure] = useState(initialBoardgameStructure);
-// function handleSelectSquare(rowIndex, colIndex) {
-//     setBoardgameStructure((prevBoardGameStructure) => {
-//         const board = [...prevBoardGameStructure.map(innerArray => [...innerArray])];
-//         board[rowIndex][colIndex] = symbol;
-//         return board;
-//     });
-//     swapPlayers();
-// }
     return (
         <ol id="game-board">
             {boardgameStructure.map((row, rowIndex) => (
@@ -29,7 +20,8 @@ export default function BoardGame({selectSquare, gameTurns}) {
                     <ol>
                         {row.map((symbol, columnIndex) => (
                             <li key={columnIndex}>
-                                <button onClick={() => selectSquare(rowIndex, columnIndex)}>{symbol}</button>
+                                <button onClick={() => selectSquare(rowIndex, columnIndex)} disabled={symbol !== null}>
+                                    {symbol}</button>
                             </li>
                         ))}
                     </ol>
