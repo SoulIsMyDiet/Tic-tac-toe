@@ -1,18 +1,6 @@
 import {useState} from 'react';
 
-const initialBoardgameStructure = [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null],
-];
-
-export default function BoardGame({selectSquare, gameTurns}) {
-    let boardgameStructure = initialBoardgameStructure;
-    for (const turn of gameTurns){
-        let {square, player} = turn;
-        let {row, col } = square;
-        boardgameStructure[row][col] = player;
-    }
+export default function BoardGame({selectSquare, boardgameStructure}) {
     return (
         <ol id="game-board">
             {boardgameStructure.map((row, rowIndex) => (
