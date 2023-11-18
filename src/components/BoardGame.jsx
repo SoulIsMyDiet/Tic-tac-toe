@@ -1,10 +1,6 @@
-const boardgameStructure = [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null],
-];
+import {useState} from 'react';
 
-export default function BoardGame() {
+export default function BoardGame({selectSquare, boardgameStructure}) {
     return (
         <ol id="game-board">
             {boardgameStructure.map((row, rowIndex) => (
@@ -12,7 +8,8 @@ export default function BoardGame() {
                     <ol>
                         {row.map((symbol, columnIndex) => (
                             <li key={columnIndex}>
-                                <button>{symbol}</button>
+                                <button onClick={() => selectSquare(rowIndex, columnIndex)} disabled={symbol !== null}>
+                                    {symbol}</button>
                             </li>
                         ))}
                     </ol>
