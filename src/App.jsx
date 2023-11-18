@@ -4,6 +4,9 @@ import Log from "./components/Log";
 import {useState} from 'react';
 import GameOver from "./components/GameOver";
 
+const player1 = 'Player1';
+const player2 = 'Player2';
+
 const initialBoardgameStructure = [
     [null, null, null],
     [null, null, null],
@@ -62,8 +65,23 @@ function deriveActivePlayer(gameTurns) {
 
 function App() {
     const [gameTurns, setGameTurns] = useState([]);
+    const [players, setPlayers] = useState({
+        'X': player1,
+        'O': player2
+    });
 
-
+    function handleChangePlayerName(symbol, playerName) {
+        setPlayers(prevPlayers => {
+            return {
+                ...prevPlayers,
+                [symbol]: playerName
+            }
+        })
+    }
+console.log(players);
+    function handleSelectRematch() {
+        setGameTurns([]);
+    }
     function handleSelectSquare(rowIndex, colIndex) {
         setGameTurns(prevTurn => {
             let player = 'X';
@@ -77,23 +95,24 @@ function App() {
         });
     }
 
-    let boardgameStructure = initialBoardgameStructure;
+    let boardgameStructure = [...initialBoardgameStructure.map(innerArray => [...innerArray])];
     for (const turn of gameTurns) {
         let {square, player} = turn;
         let {row, col} = square;
         boardgameStructure[row][col] = player;
     }
-    const winner = returnWinningSymbol(gameTurns, boardgameStructure);
-    const hasDraw = !winner && gameTurns.length === 9;
+    const winnerSymbol = returnWinningSymbol(gameTurns, boardgameStructure);
+    const hasDraw = !winnerSymbol && gameTurns.length === 9;
+    const winnerName = players[winnerSymbol];
     const activePlayer = deriveActivePlayer(gameTurns);
 
     return (
         <main>
             <div id="game-container">
-                {(winner || hasDraw) && <GameOver winner={winner}/>}
+                {(winnerSymbol || hasDraw) && <GameOver winner={winnerName} selectRematch={handleSelectRematch}/>}
                 <ol id="players" className="highlight-player">
-                    <Player isActive={activePlayer === 'X'} name='Player1' symbol='X'/>
-                    <Player isActive={activePlayer === 'O'} name='Player2' symbol='O'/>
+                    <Player isActive={activePlayer === 'X'} name={player1} symbol='X' changePlayerName={handleChangePlayerName}/>
+                    <Player isActive={activePlayer === 'O'} name={player2} symbol='O' changePlayerName={handleChangePlayerName}/>
                 </ol>
                 <BoardGame selectSquare={handleSelectSquare} boardgameStructure={boardgameStructure}/>
             </div>
